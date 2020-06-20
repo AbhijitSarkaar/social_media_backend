@@ -1,13 +1,30 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
+from flask_mysqldb import MySQL
 
 # initialize the app. creating an instance of Flask class
 app = Flask(__name__)
-app.config["DEBUG"] = True
+
+#configure mysql
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'BACKEND@2020'
+app.config['MYSQL_DB'] = 'sql_store'
+
+mysql = MySQL(app)
 
 # create a root route
 @app.route('/')
-def hello_world():
+def index():
     return "Hello World!"
+
+@app.route('/users')
+def users():
+  cur = mysql.connection.cursor()
+  resultValue = cur.execute("SELECT * FROM users")
+  if resultValue > 0:
+    userDetails = cur.fetchall()
+    print(userDetails)
+    return jsonify(userDetails)
 
 @app.route('/data')
 def get_data():
