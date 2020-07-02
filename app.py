@@ -32,14 +32,17 @@ def users():
 @app.route('/create_user', methods=['POST'])
 def create_user():
   if request.method == 'POST':
-    userDetails = request.form.to_dict()
-    print(userDetails)
-    # first_name = userDetails['first_name']
-    # last_name = userDetails['last_name']
-    # cur = mysql.connection.cursor()
-    # cur.execute("INSERT INTO users (first_name, last_name) VALUES (%s, %s)", (first_name, last_name))
-    # mysql.connection.commit()
-    # cur.close()
+    userDetails = request.get_json()
+    # print(request.form) #ImmutableMultiDict([('key', 'value')])
+    # print(request.form.to_dict(flat=False)) #prints {'key', ['value]}
+    # for key in request.form:
+    #   print(request.form[key])
+    _first = request.form['first_name']
+    _last = request.form['last_name']
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO users (first_name, last_name) VALUES (%s, %s)", (_first, _last))
+    mysql.connection.commit()
+    cur.close()
     return {'status': 200, 'message': 'Inserted Successfully'}
 
 @app.route('/data')
