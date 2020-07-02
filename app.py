@@ -45,6 +45,24 @@ def create_user():
     cur.close()
     return {'status': 200, 'message': 'Inserted Successfully'}
 
+@app.route('/update_user', methods=['PATCH'])
+def update_user():
+  if request.method == 'PATCH':
+    userDetails = request.get_json()
+    print(request.form) #ImmutableMultiDict([('key', 'value')])
+    print(request.form.to_dict(flat=False)) #prints {'key', ['value]}
+    # for key in request.form:
+    #   print(request.form[key])
+    _id = request.form['id']
+    print(_id)
+    _first = request.form['first_name']
+    _last = request.form['last_name']
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE users SET first_name=%s, last_name = %s WHERE id = %s", (_first, _last, _id))
+    mysql.connection.commit()
+    cur.close()
+    return {'status': 200, 'message': 'Updated Successfully'}
+
 @app.route('/data')
 def get_data():
     return jsonify(
