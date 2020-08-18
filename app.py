@@ -32,11 +32,6 @@ def users():
 @app.route('/create_user', methods=['POST'])
 def create_user():
   if request.method == 'POST':
-    userDetails = request.get_json()
-    # print(request.form) #ImmutableMultiDict([('key', 'value')])
-    # print(request.form.to_dict(flat=False)) #prints {'key', ['value]}
-    # for key in request.form:
-    #   print(request.form[key])
     _first = request.form['first_name']
     _last = request.form['last_name']
     cur = mysql.connection.cursor()
@@ -48,13 +43,7 @@ def create_user():
 @app.route('/update_user', methods=['PATCH'])
 def update_user():
   if request.method == 'PATCH':
-    userDetails = request.get_json()
-    print(request.form) #ImmutableMultiDict([('key', 'value')])
-    print(request.form.to_dict(flat=False)) #prints {'key', ['value]}
-    # for key in request.form:
-    #   print(request.form[key])
     _id = request.form['id']
-    print(_id)
     _first = request.form['first_name']
     _last = request.form['last_name']
     cur = mysql.connection.cursor()
