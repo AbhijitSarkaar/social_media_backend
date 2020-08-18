@@ -1,15 +1,16 @@
 from flask import Flask, jsonify, make_response, request
 from flask_mysqldb import MySQL
+import db_config
 from utils import user_util
 
 # initialize the app. creating an instance of Flask class
 app = Flask(__name__)
 
 #configure mysql
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'BACKEND@2020'
-app.config['MYSQL_DB'] = 'sql_store'
+app.config['MYSQL_HOST'] = db_config.MYSQL_HOST
+app.config['MYSQL_USER'] = db_config.MYSQL_USER
+app.config['MYSQL_PASSWORD'] = db_config.MYSQL_PASSWORD
+app.config['MYSQL_DB'] = db_config.MYSQL_DB
 
 mysql = MySQL(app)
 
